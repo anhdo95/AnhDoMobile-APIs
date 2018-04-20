@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnhDoMobile.Web", "AnhDoMobile.Web\AnhDoMobile.Web.csproj", "{D8DAF7E6-01BA-4872-A56E-9920C0B93CA6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnhDoMobile.Models", "AnhDoMobile.Models\AnhDoMobile.Models.csproj", "{4967DF8A-D6BE-4272-9610-FD63BE8DE1C1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D8DAF7E6-01BA-4872-A56E-9920C0B93CA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8DAF7E6-01BA-4872-A56E-9920C0B93CA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8DAF7E6-01BA-4872-A56E-9920C0B93CA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8DAF7E6-01BA-4872-A56E-9920C0B93CA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4967DF8A-D6BE-4272-9610-FD63BE8DE1C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4967DF8A-D6BE-4272-9610-FD63BE8DE1C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4967DF8A-D6BE-4272-9610-FD63BE8DE1C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4967DF8A-D6BE-4272-9610-FD63BE8DE1C1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
