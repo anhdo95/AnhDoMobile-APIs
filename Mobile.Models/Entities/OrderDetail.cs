@@ -5,10 +5,10 @@ namespace Mobile.Models.Entities
 {
     public class OrderDetail
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [Key, Column(Order = 0), DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int ProductId { get; set; }
 
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [Key, Column(Order = 1), DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int OrderId { get; set; }
 
         [Required, Range(0, 1000)]

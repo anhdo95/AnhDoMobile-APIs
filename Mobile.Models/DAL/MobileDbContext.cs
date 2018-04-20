@@ -1,4 +1,5 @@
 ﻿using Mobile.Models.Entities;
+using Mobile.Models.Migrations;
 using System.Data.Entity;
 
 namespace Mobile.Models.DAL
@@ -7,6 +8,7 @@ namespace Mobile.Models.DAL
     {
         public MobileDbContext() : base("name=MobileConnectionString")
         {
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<MobileDbContext, Configuration>());
         }
 
         public virtual DbSet<Cart> Carts { get; set; }
@@ -27,6 +29,16 @@ namespace Mobile.Models.DAL
             modelBuilder.Entity<Product>()
                 .HasRequired(p => p.Specification)
                 .WithRequiredPrincipal(s => s.Product);
+
+            modelBuilder.Entity<Category>()
+                .HasRequired(c => c.User)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Comment>()
+                .HasRequired(c => c.User)
+                .WithMany()
+                .WillCascadeOnDelete(false);
 
             base.OnModelCreating(modelBuilder);
         }
