@@ -14,7 +14,7 @@ namespace Mobile.Models.DAL.Interfaces
         /// <param name="topNumer">The number of elements to return.</param>
         /// <returns></returns>
         Task<IEnumerable<SearchProductViewModel>> SearchByKeyword(string keyword, int? topNumer = null);
-       
+        Task<IEnumerable<ProductViewModel>> GetAll();
         /// <param name="topNumer">The number of elements to return.</param>
         Task<IEnumerable<ProductViewModel>> GetBestOutstanding(int topNumer);
         // <param name="topNumer">The number of elements to return.</param>

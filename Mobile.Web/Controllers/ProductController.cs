@@ -18,6 +18,28 @@ namespace Mobile.Web.Controllers
             _unitOfWork = unitOfWork;
         }
 
+        public async Task<JsonResult> Index()
+        {
+            string status = Instances.ERROR_STATUS;
+            string statusMessage = string.Empty;
+            var products = Enumerable.Empty<SearchProductViewModel>();
+            try
+            {
+                products = await _unitOfWork.ProductRepo.GetAll();
+                status = Instances.SUCCESS_STATUS;
+            }
+            catch (Exception ex)
+            {
+                statusMessage = ex.Message;
+            }
+
+            var results = APIHelper.Instance.GetApiResult(new
+            {
+                Products = products
+            }, status, statusMessage, products.Count());
+            return Json(results, JsonRequestBehavior.AllowGet);
+        }
+
         public async Task<JsonResult> Search(string keyword)
         {
             string status = Instances.ERROR_STATUS;

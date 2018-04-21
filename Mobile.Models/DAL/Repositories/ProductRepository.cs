@@ -4,6 +4,7 @@ using Mobile.Models.DAL.Interfaces;
 using Mobile.Models.Entities;
 using System.Linq;
 using Mobile.Models.ViewModels;
+using System;
 
 namespace Mobile.Models.DAL.Repositories
 {
@@ -65,6 +66,21 @@ namespace Mobile.Models.DAL.Repositories
                 filter: p => p.Status,
                 orderBy: list => list.OrderByDescending(p => p.OrderDetails.Sum(o => o.Order.Total)),
                 topNumber: topNumer);
+        }
+
+        public async Task<IEnumerable<ProductViewModel>> GetAll()
+        {
+            return await Select(
+                p => new ProductViewModel
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    MetaTitle = p.MetaTitle,
+                    Image = p.Image,
+                    Price = p.Price,
+                    PromotionPrice = p.PromotionPrice,
+                    DiscountAccompanying = p.DiscountAccompanying
+                });
         }
     }
 }
