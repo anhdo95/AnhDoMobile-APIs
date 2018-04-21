@@ -167,10 +167,13 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
+    <Compile Include="Controllers\CommentController.cs" />
+    <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\APIHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -187,9 +190,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Product\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Mobile.Common\Mobile.Common.csproj">
+      <Project>{1075deaf-8476-47eb-a422-67e52e1ce68f}</Project>
+      <Name>Mobile.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mobile.Models\Mobile.Models.csproj">
       <Project>{ffa66e7d-279c-4dc3-ad69-b2c4c3e3156c}</Project>
       <Name>Mobile.Models</Name>
