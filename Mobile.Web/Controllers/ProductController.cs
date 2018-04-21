@@ -25,7 +25,7 @@ namespace Mobile.Web.Controllers
             var products = Enumerable.Empty<SearchProductViewModel>();
             try
             {
-                products = await SearchByKeyword(keyword, Instances.PRODUCT_SEARCH_NUMBER_USED_TO_DISPLAY);
+                products = await _unitOfWork.ProductRepo.SearchByKeyword(keyword, Instances.PRODUCT_SEARCH_NUMBER_USED_TO_DISPLAY);
                 status = Instances.SUCCESS_STATUS;
             }
             catch (Exception ex)
@@ -33,26 +33,10 @@ namespace Mobile.Web.Controllers
                 statusMessage = ex.Message;
             }
 
-            var results = GetApi(new {
+            var results = _unitOfWork.GetApi(new {
                 Products = products
             }, status, statusMessage, products.Count());
             return Json(results, JsonRequestBehavior.AllowGet);
-        }
-
-        private async Task<IEnumerable<SearchProductViewModel>> SearchByKeyword(string keyword, int? topNumber = null)
-        {
-            return await _unitOfWork.ProductRepo.SearchByKeyword(keyword, topNumber);
-        }
-
-        private ApiViewModel GetApi(object references, string status, string statusMessage, int length)
-        {
-            return new ApiViewModel
-            {
-                References = references,
-                Status = status,
-                StatusMessage = statusMessage,
-                Length = length
-            };
         }
     }
 }

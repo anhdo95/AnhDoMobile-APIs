@@ -7,6 +7,12 @@ namespace Mobile.Models.DAL.Interfaces
 {
     public interface IProductRepository : IRepository<Product>
     {
+        /// <summary>
+        /// Returns a product list that satisfies with keyword given. 
+        /// </summary>
+        /// <param name="keyword"></param>
+        /// <param name="topNumer">The number of elements to return.</param>
+        /// <returns></returns>
         Task<IEnumerable<SearchProductViewModel>> SearchByKeyword(string keyword, int? topNumer = null);
     }
 }
