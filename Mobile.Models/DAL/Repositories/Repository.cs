@@ -43,6 +43,31 @@ namespace Mobile.Models.DAL.Repositories
             return await query.ToListAsync();
         }
 
+        public async Task<IEnumerable<TResult>> Select<TResult>(
+            Expression<Func<TEntity, TResult>> selectQuery,
+            Expression<Func<TEntity, bool>> filter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            string includeProperties = "", int? topNumber = null)
+        {
+            IQueryable<TEntity> query = _dbSet;
+
+            if (filter != null)
+                query = query.Where(filter);
+
+            foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                query = query.Include(includeProperty);
+            }
+
+            if (orderBy != null)
+                query = orderBy(query);
+
+            if (topNumber != null)
+                query = query.Take(topNumber.Value);
+
+            return await query.Select(selectQuery).ToListAsync();
+        }
+
         public async Task<TEntity> GetByIdAsync(object id)
         {
             return await _dbSet.FindAsync(id);

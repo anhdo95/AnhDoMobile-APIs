@@ -13,6 +13,12 @@ namespace Mobile.Models.DAL.Interfaces
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
             string includeProperties = "", int? topNumber = null);
 
+        Task<IEnumerable<TResult>> Select<TResult>(
+            Expression<Func<TEntity, TResult>> selectQuery,
+            Expression<Func<TEntity, bool>> filter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            string includeProperties = "", int? topNumber = null);
+
         Task<TEntity> GetByIdAsync(object id);
         void Insert(TEntity entity);
         Task DeleteAsync(object id);
