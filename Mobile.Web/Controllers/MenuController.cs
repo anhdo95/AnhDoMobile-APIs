@@ -1,5 +1,4 @@
 ﻿using Mobile.Models.DAL.Interfaces;
-using Mobile.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using Mobile.Common;
 using Mobile.Models.Entities;
+using Mobile.Web.Helpers;
 
 namespace Mobile.Web.Controllers
 {
@@ -34,7 +34,7 @@ namespace Mobile.Web.Controllers
                 statusMessage = ex.Message;
             }
 
-            var results = _unitOfWork.GetApi(new {
+            var results = APIHelper.Instance.GetApiResult(new {
                 Menus = menus
             }, status, statusMessage, menus.Count());
             return Json(results, JsonRequestBehavior.AllowGet);
