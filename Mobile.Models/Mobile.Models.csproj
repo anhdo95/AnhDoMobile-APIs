@@ -49,16 +49,49 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DAL\Interfaces\IProductRepository.cs" />
+    <Compile Include="DAL\Interfaces\IUnitOfWork.cs" />
+    <Compile Include="DAL\Interfaces\IRepository.cs" />
+    <Compile Include="DAL\MobileDbContext.cs" />
+    <Compile Include="DAL\Repositories\ProductRepository.cs" />
+    <Compile Include="DAL\Repositories\UnitOfWork.cs" />
+    <Compile Include="DAL\Repositories\Repository.cs" />
+    <Compile Include="Entities\Cart.cs" />
+    <Compile Include="Entities\Order.cs" />
+    <Compile Include="Entities\Comment.cs" />
+    <Compile Include="Entities\Contact.cs" />
+    <Compile Include="Entities\Customer.cs" />
+    <Compile Include="Entities\Menu.cs" />
+    <Compile Include="Entities\Category.cs" />
+    <Compile Include="Entities\OrderDetail.cs" />
+    <Compile Include="Entities\Product.cs" />
+    <Compile Include="Entities\ProductSpecification.cs" />
+    <Compile Include="Entities\Slide.cs" />
+    <Compile Include="Entities\User.cs" />
+    <Compile Include="Migrations\201804201545034_Initial.cs" />
+    <Compile Include="Migrations\201804201545034_Initial.Designer.cs">
+      <DependentUpon>201804201545034_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="DAL\" />
-    <Folder Include="Entities\" />
     <Folder Include="ViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Mobile.Common\Mobile.Common.csproj">
+      <Project>{1075deaf-8476-47eb-a422-67e52e1ce68f}</Project>
+      <Name>Mobile.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201804201545034_Initial.resx">
+      <DependentUpon>201804201545034_Initial.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
