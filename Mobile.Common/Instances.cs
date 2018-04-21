@@ -6,6 +6,7 @@
         public static string SUCCESS_STATUS = "ok";
 
         public static int PRODUCT_SEARCH_NUMBER_USED_TO_DISPLAY = 5;
-        public static int PRODUCT_BEST_OUTSTANDING_NUMBER_USED_TO_DISPLAY = 5;
+        public static int PRODUCT_BEST_OUTSTANDING_NUMBER_USED_TO_DISPLAY = 4;
+        public static int PRODUCT_BEST_SELLING_NUMBER_USED_TO_DISPLAY = 9;
     }
 }

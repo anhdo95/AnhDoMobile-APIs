@@ -39,7 +39,7 @@ namespace Mobile.Web.Controllers
             return Json(results, JsonRequestBehavior.AllowGet);
         }
 
-        public async Task<JsonResult> GetBestOutstanding(string keyword)
+        public async Task<JsonResult> GetBestOutstanding()
         {
             string status = Instances.ERROR_STATUS;
             string statusMessage = string.Empty;
@@ -61,6 +61,26 @@ namespace Mobile.Web.Controllers
             return Json(results, JsonRequestBehavior.AllowGet);
         }
 
-        
+        public async Task<JsonResult> GetBestSelling()
+        {
+            string status = Instances.ERROR_STATUS;
+            string statusMessage = string.Empty;
+            var products = Enumerable.Empty<SearchProductViewModel>();
+            try
+            {
+                products = await _unitOfWork.ProductRepo.GetBestSelling(Instances.PRODUCT_BEST_SELLING_NUMBER_USED_TO_DISPLAY);
+                status = Instances.SUCCESS_STATUS;
+            }
+            catch (Exception ex)
+            {
+                statusMessage = ex.Message;
+            }
+
+            var results = APIHelper.Instance.GetApiResult(new
+            {
+                Products = products
+            }, status, statusMessage, products.Count());
+            return Json(results, JsonRequestBehavior.AllowGet);
+        }
     }
 }

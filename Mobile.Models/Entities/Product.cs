@@ -1,5 +1,6 @@
 ﻿using Mobile.Common.Enums;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -55,6 +56,8 @@ namespace Mobile.Models.Entities
         public virtual Category Category { get; set; }
 
         public virtual ProductSpecification Specification { get; set; }
+
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
 
         [ForeignKey("User")]
         public int CreatedBy { get; set; }
