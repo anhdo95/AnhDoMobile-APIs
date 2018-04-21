@@ -11,7 +11,7 @@ namespace Mobile.Models.DAL.Interfaces
         Task<IEnumerable<TEntity>> GetAsync(
             Expression<Func<TEntity, bool>> filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
-            string includeProperties = "");
+            string includeProperties = "", int? topNumber = null);
 
         Task<TEntity> GetByIdAsync(object id);
         void Insert(TEntity entity);

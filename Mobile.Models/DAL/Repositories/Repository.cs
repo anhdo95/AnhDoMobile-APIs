@@ -11,7 +11,7 @@ namespace Mobile.Models.DAL.Repositories
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         protected readonly MobileDbContext _context;
-        private DbSet<TEntity> _dbSet;
+        protected DbSet<TEntity> _dbSet;
 
         public Repository(MobileDbContext context)
         {
@@ -22,7 +22,7 @@ namespace Mobile.Models.DAL.Repositories
         public async Task<IEnumerable<TEntity>> GetAsync(
             Expression<Func<TEntity, bool>> filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
-            string includeProperties = "")
+            string includeProperties = "", int? topNumber = null)
         {
             IQueryable<TEntity> query = _dbSet;
 
@@ -36,6 +36,9 @@ namespace Mobile.Models.DAL.Repositories
 
             if (orderBy != null)
                 query = orderBy(query);
+
+            if (topNumber != null)
+                query = query.Take(topNumber.Value);
 
             return await query.ToListAsync();
         }
