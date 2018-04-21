@@ -20,5 +20,12 @@ namespace Mobile.Models.DAL.Interfaces
         // <param name="topNumer">The number of elements to return.</param>
         Task<IEnumerable<ProductViewModel>> GetBestSelling(int topNumer);
         Task<ProductDetailViewModel> GetDetail(int id);
+        /// <summary>
+        /// This method will find the products are the best related to this product.
+        /// </summary>
+        /// <param name="id">The product's id</param>
+        /// <param name="topNumber">The number of elements to return.</param>
+        /// <returns>The products are the best related.</returns>
+        Task<IEnumerable<RelatedProductViewModel>> GetRelatedProducts(int id, int topNumber);
     }
 }

@@ -18,4 +18,12 @@ namespace Mobile.Models.ViewModels
         public string CategoryName { get; set; }
         public bool Status { get; set; }
     }
+
+    public class RelatedProductViewModel : SearchProductViewModel
+    {
+        public string Screen { get; set; }
+        public string CameraAfter { get; set; }
+        public string CameraBefore { get; set; }
+        public string PinCapacity { get; set; }
+    }
 }

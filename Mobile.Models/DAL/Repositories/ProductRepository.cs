@@ -5,6 +5,8 @@ using Mobile.Models.Entities;
 using System.Linq;
 using Mobile.Models.ViewModels;
 using System.Xml.Linq;
+using Mobile.Common;
+using System.Data.Entity;
 
 namespace Mobile.Models.DAL.Repositories
 {
@@ -87,7 +89,8 @@ namespace Mobile.Models.DAL.Repositories
         {
             var product = await GetByIdAsync(id);
 
-            return new ProductDetailViewModel {
+            return new ProductDetailViewModel
+            {
                 Id = product.Id,
                 Code = product.Code,
                 Name = product.Name,
@@ -103,6 +106,35 @@ namespace Mobile.Models.DAL.Repositories
                 Description = product.Description,
                 Status = product.Status,
             };
+        }
+
+        public async Task<IEnumerable<RelatedProductViewModel>> GetRelatedProducts(int id, int topNumber)
+        {
+            int categoryId = await (from p in _dbSet
+                                    where p.Id == id
+                                    select p.CategoryId
+                                    ).SingleOrDefaultAsync();
+
+            if (categoryId == 0)
+                throw new System.ArgumentNullException("id", "The product isn't exists.");
+
+            return await Select(
+                p => new RelatedProductViewModel
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    MetaTitle = p.MetaTitle,
+                    Image = p.Image,
+                    Price = p.Price,
+                    PromotionPrice = p.PromotionPrice,
+                    Screen = p.Specification.Screen,
+                    CameraAfter = p.Specification.CameraAfter,
+                    CameraBefore = p.Specification.CameraBefore,
+                    PinCapacity = p.Specification.PinCapacity
+                },
+                filter: p => p.Status && p.Id != id && p.CategoryId == categoryId,
+                orderBy: list => list.OrderByDescending(p => p.Price),
+                topNumber: topNumber);
         }
 
         private IEnumerable<string> GetMoreImages(string moreImages)

@@ -130,5 +130,27 @@ namespace Mobile.Web.Controllers
             }, status, statusMessage, 2);
             return Json(results, JsonRequestBehavior.AllowGet);
         }
+
+        public async Task<JsonResult> GetRelated(int id)
+        {
+            string status = Instances.ERROR_STATUS;
+            string statusMessage = string.Empty;
+            var products = Enumerable.Empty<RelatedProductViewModel>();
+            try
+            {
+                products = await _unitOfWork.ProductRepo.GetRelatedProducts(id, Instances.PRODUCT_RELATED_PRODUCT_NUMBER_USED_TO_DISPLAY);
+                status = Instances.SUCCESS_STATUS;
+            }
+            catch (Exception ex)
+            {
+                statusMessage = ex.Message;
+            }
+
+            var results = APIHelper.Instance.GetApiResult(new
+            {
+                Products = products
+            }, status, statusMessage, products.Count());
+            return Json(results, JsonRequestBehavior.AllowGet);
+        }
     }
 }
