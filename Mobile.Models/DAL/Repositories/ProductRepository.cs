@@ -16,27 +16,26 @@ namespace Mobile.Models.DAL.Repositories
 
         public async Task<IEnumerable<SearchProductViewModel>> SearchByKeyword(string keyword, int? topNumer = null)
         {
-            var products = from p in _dbSet
-                           where p.Status && p.Name.Contains(keyword) || p.MetaTitle.Contains(keyword)
-                           orderby p.ViewCount descending
-                           select new SearchProductViewModel
-                           {
-                               Id = p.Id,
-                               Name = p.Name,
-                               MetaTitle = p.MetaTitle,
-                               Image = p.Image,
-                               Price = p.Price,
-                               PromotionPrice = p.PromotionPrice,
-                           };
-            if (topNumer != null)
-                products = products.Take(topNumer.Value);
-            return await products.ToListAsync();
+            return await Select(
+                p => new SearchProductViewModel
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    MetaTitle = p.MetaTitle,
+                    Image = p.Image,
+                    Price = p.Price,
+                    PromotionPrice = p.PromotionPrice,
+                },
+                filter: p => p.Status && p.Name.Contains(keyword) || p.MetaTitle.Contains(keyword),
+                orderBy: list => list.OrderByDescending(p => p.ViewCount),
+                topNumber: topNumer ?? int.MaxValue);
         }
 
         public async Task<IEnumerable<ProductViewModel>> GetBestOutstanding(int topNumer)
         {
             return await Select(
-                p => new ProductViewModel {
+                p => new ProductViewModel
+                {
                     Id = p.Id,
                     Name = p.Name,
                     MetaTitle = p.MetaTitle,

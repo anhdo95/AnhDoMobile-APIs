@@ -2,10 +2,10 @@
 using Mobile.Models.DAL.Interfaces;
 using Mobile.Models.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Linq;
+using Mobile.Web.Helpers;
 
 namespace Mobile.Web.Controllers
 {
@@ -33,10 +33,34 @@ namespace Mobile.Web.Controllers
                 statusMessage = ex.Message;
             }
 
-            var results = _unitOfWork.GetApi(new {
+            var results = APIHelper.Instance.GetApiResult(new {
                 Products = products
             }, status, statusMessage, products.Count());
             return Json(results, JsonRequestBehavior.AllowGet);
         }
+
+        public async Task<JsonResult> GetBestOutstanding(string keyword)
+        {
+            string status = Instances.ERROR_STATUS;
+            string statusMessage = string.Empty;
+            var products = Enumerable.Empty<SearchProductViewModel>();
+            try
+            {
+                products = await _unitOfWork.ProductRepo.GetBestOutstanding(Instances.PRODUCT_BEST_OUTSTANDING_NUMBER_USED_TO_DISPLAY);
+                status = Instances.SUCCESS_STATUS;
+            }
+            catch (Exception ex)
+            {
+                statusMessage = ex.Message;
+            }
+
+            var results = APIHelper.Instance.GetApiResult(new
+            {
+                Products = products
+            }, status, statusMessage, products.Count());
+            return Json(results, JsonRequestBehavior.AllowGet);
+        }
+
+        
     }
 }
