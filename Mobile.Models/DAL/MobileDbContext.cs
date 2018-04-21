@@ -4,7 +4,7 @@ using System.Data.Entity;
 
 namespace Mobile.Models.DAL
 {
-    class MobileDbContext : DbContext
+    public class MobileDbContext : DbContext
     {
         public MobileDbContext() : base("name=MobileConnectionString")
         {
