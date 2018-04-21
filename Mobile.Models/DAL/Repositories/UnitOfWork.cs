@@ -2,6 +2,7 @@
 using Mobile.Models.Entities;
 using System;
 using System.Threading.Tasks;
+using Mobile.Models.ViewModels;
 
 namespace Mobile.Models.DAL.Repositories
 {
@@ -60,6 +61,17 @@ namespace Mobile.Models.DAL.Repositories
             Dispose(true);
             // Prevent the finalizer from releasing unmanaged resources that have already been freed by IDisposable.Dispose
             GC.SuppressFinalize(this);
+        }
+
+        public ApiViewModel GetApi(object references, string status, string statusMessage, int length)
+        {
+            return new ApiViewModel
+            {
+                References = references,
+                Status = status,
+                StatusMessage = statusMessage,
+                Length = length
+            };
         }
     }
 }
