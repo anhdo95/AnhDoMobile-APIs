@@ -1,4 +1,5 @@
 ﻿using Mobile.Models.DAL.Interfaces;
+using Mobile.Models.Entities;
 using System;
 using System.Threading.Tasks;
 
@@ -8,6 +9,7 @@ namespace Mobile.Models.DAL.Repositories
     {
         protected readonly MobileDbContext _context;
         private IProductRepository _productRepo;
+        private IRepository<Menu> _menuRepo;
 
         public UnitOfWork(MobileDbContext context)
         {
@@ -21,6 +23,16 @@ namespace Mobile.Models.DAL.Repositories
                 if (_productRepo == null)
                     _productRepo = new ProductRepository(_context);
                 return _productRepo;
+            }
+        }
+
+        public IRepository<Menu> MenuRepo
+        {
+            get
+            {
+                if (_menuRepo == null)
+                    _menuRepo = new Repository<Menu>(_context);
+                return _menuRepo;
             }
         }
 
