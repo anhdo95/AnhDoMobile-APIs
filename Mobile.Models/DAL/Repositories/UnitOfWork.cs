@@ -11,6 +11,7 @@ namespace Mobile.Models.DAL.Repositories
         private IProductRepository _productRepo;
         private IRepository<Menu> _menuRepo;
         private IRepository<ProductSpecification> _specificationRepo;
+        private ICommentRepository _commentRepo;
 
         public UnitOfWork(MobileDbContext context)
         {
@@ -44,6 +45,16 @@ namespace Mobile.Models.DAL.Repositories
                 if (_specificationRepo == null)
                     _specificationRepo = new Repository<ProductSpecification>(_context);
                 return _specificationRepo;
+            }
+        }
+
+        public ICommentRepository CommentRepo
+        {
+            get
+            {
+                if (_commentRepo == null)
+                    _commentRepo = new CommentRepository(_context);
+                return _commentRepo;
             }
         }
 
