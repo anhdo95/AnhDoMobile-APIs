@@ -8,6 +8,7 @@ namespace Mobile.Models.DAL.Interfaces
     {
         IProductRepository ProductRepo { get; }
         IRepository<Menu> MenuRepo { get; }
+        IRepository<ProductSpecification> SpecificationRepo { get; }
         Task SaveAsync();
     }
 }

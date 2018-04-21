@@ -2,7 +2,6 @@
 using Mobile.Models.Entities;
 using System;
 using System.Threading.Tasks;
-using Mobile.Models.ViewModels;
 
 namespace Mobile.Models.DAL.Repositories
 {
@@ -11,6 +10,7 @@ namespace Mobile.Models.DAL.Repositories
         protected readonly MobileDbContext _context;
         private IProductRepository _productRepo;
         private IRepository<Menu> _menuRepo;
+        private IRepository<ProductSpecification> _specificationRepo;
 
         public UnitOfWork(MobileDbContext context)
         {
@@ -34,6 +34,16 @@ namespace Mobile.Models.DAL.Repositories
                 if (_menuRepo == null)
                     _menuRepo = new Repository<Menu>(_context);
                 return _menuRepo;
+            }
+        }
+
+        public IRepository<ProductSpecification> SpecificationRepo
+        {
+            get
+            {
+                if (_specificationRepo == null)
+                    _specificationRepo = new Repository<ProductSpecification>(_context);
+                return _specificationRepo;
             }
         }
 
