@@ -26,14 +26,14 @@ namespace Mobile.Models.DAL.Repositories
         {
             IQueryable<TEntity> query = _dbSet;
 
-            if (filter != null)
-                query = query.Where(filter);
-
             foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
             {
                 query = query.Include(includeProperty);
             }
 
+            if (filter != null)
+                query = query.Where(filter);
+            
             if (orderBy != null)
                 query = orderBy(query);
 
@@ -51,13 +51,13 @@ namespace Mobile.Models.DAL.Repositories
         {
             IQueryable<TEntity> query = _dbSet;
 
-            if (filter != null)
-                query = query.Where(filter);
-
             foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
             {
                 query = query.Include(includeProperty);
             }
+
+            if (filter != null)
+                query = query.Where(filter);
 
             if (orderBy != null)
                 query = orderBy(query);
