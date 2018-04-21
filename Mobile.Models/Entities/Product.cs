@@ -35,6 +35,9 @@ namespace Mobile.Models.Entities
 
         public decimal? PromotionPrice { get; set; }
 
+        [StringLength(100)]
+        public string DiscountAccompanying { get; set; }
+
         public bool IncludeVAT { get; set; }
 
         [Required, Range(0, 1000)]
