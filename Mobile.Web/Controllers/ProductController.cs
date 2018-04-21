@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Linq;
 using Mobile.Web.Helpers;
+using Mobile.Models.Entities;
 
 namespace Mobile.Web.Controllers
 {
@@ -102,6 +103,31 @@ namespace Mobile.Web.Controllers
             {
                 Products = products
             }, status, statusMessage, products.Count());
+            return Json(results, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<JsonResult> GetDetail(int id)
+        {
+            string status = Instances.ERROR_STATUS;
+            string statusMessage = string.Empty;
+            var product = new ProductDetailViewModel();
+            var specification = new ProductSpecification();
+            try
+            {
+                product = await _unitOfWork.ProductRepo.GetDetail(id);
+                specification = await _unitOfWork.SpecificationRepo.GetByIdAsync(id);
+                specification.Product = null; // Avoid a circular reference to product instance
+                
+                status = Instances.SUCCESS_STATUS;
+            }
+            catch (Exception ex)
+            {
+                statusMessage = ex.Message;
+            }
+            var results = APIHelper.Instance.GetApiResult(new {
+                Product = product,
+                Specification = specification
+            }, status, statusMessage, 2);
             return Json(results, JsonRequestBehavior.AllowGet);
         }
     }
