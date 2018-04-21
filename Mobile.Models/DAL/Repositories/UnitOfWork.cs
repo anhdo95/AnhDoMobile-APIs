@@ -62,16 +62,5 @@ namespace Mobile.Models.DAL.Repositories
             // Prevent the finalizer from releasing unmanaged resources that have already been freed by IDisposable.Dispose
             GC.SuppressFinalize(this);
         }
-
-        public ApiViewModel GetApi(object references, string status, string statusMessage, int length)
-        {
-            return new ApiViewModel
-            {
-                References = references,
-                Status = status,
-                StatusMessage = statusMessage,
-                Length = length
-            };
-        }
     }
 }
