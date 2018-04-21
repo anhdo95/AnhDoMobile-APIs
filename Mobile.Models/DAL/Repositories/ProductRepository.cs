@@ -4,7 +4,7 @@ using Mobile.Models.DAL.Interfaces;
 using Mobile.Models.Entities;
 using System.Linq;
 using Mobile.Models.ViewModels;
-using System;
+using System.Xml.Linq;
 
 namespace Mobile.Models.DAL.Repositories
 {
@@ -81,6 +81,38 @@ namespace Mobile.Models.DAL.Repositories
                     PromotionPrice = p.PromotionPrice,
                     DiscountAccompanying = p.DiscountAccompanying
                 });
+        }
+
+        public async Task<ProductDetailViewModel> GetDetail(int id)
+        {
+            var product = await GetByIdAsync(id);
+
+            return new ProductDetailViewModel {
+                Id = product.Id,
+                Code = product.Code,
+                Name = product.Name,
+                MetaTitle = product.MetaTitle,
+                CategoryName = product.Category.Name,
+                Image = product.Image,
+                MoreImages = GetMoreImages(product.MoreImages),
+                Price = product.Price,
+                PromotionPrice = product.PromotionPrice,
+                IncludeVAT = product.IncludeVAT,
+                Quantity = product.Quantity,
+                Detail = product.Detail,
+                Description = product.Description,
+                Status = product.Status,
+            };
+        }
+
+        private IEnumerable<string> GetMoreImages(string moreImages)
+        {
+            XElement xImages = XElement.Parse(moreImages);
+
+            foreach (XElement element in xImages.Elements())
+            {
+                yield return element.Value;
+            }
         }
     }
 }
