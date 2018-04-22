@@ -18,14 +18,13 @@ namespace Mobile.Web.Helpers
 
         private APIHelper() { }
 
-        public ApiViewModel GetApiResult(object references, string status, string statusMessage, int length)
+        public ApiViewModel GetApiResult(object references, string status, string statusMessage, int? length = null)
         {
-            return new ApiViewModel
-            {
+            return new ApiViewModel {
                 References = references,
                 Status = status,
                 StatusMessage = statusMessage,
-                Length = length
+                Length = length.GetValueOrDefault()
             };
         }
     }
