@@ -11,6 +11,9 @@ namespace Mobile.Models.DAL.Interfaces
         IRepository<ProductSpecification> SpecificationRepo { get; }
         ICommentRepository CommentRepo { get; }
         ICartRepository CartRepo { get; }
+        ICustomerRepository CustomerRepo { get; }
+        IOrderRepository OrderRepo { get; }
+        IRepository<OrderDetail> OrderDetailRepo { get; }
         Task SaveAsync();
     }
 }

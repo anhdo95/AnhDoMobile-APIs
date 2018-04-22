@@ -13,6 +13,9 @@ namespace Mobile.Models.DAL.Repositories
         private IRepository<ProductSpecification> _specificationRepo;
         private ICommentRepository _commentRepo;
         private ICartRepository _cartRepo;
+        private ICustomerRepository _customerRepo;
+        private IOrderRepository _orderRepo;
+        private IRepository<OrderDetail> _orderDetailRepo;
 
         public UnitOfWork(MobileDbContext context)
         {
@@ -66,6 +69,36 @@ namespace Mobile.Models.DAL.Repositories
                 if (_cartRepo == null)
                     _cartRepo = new CartRepository(_context, this);
                 return _cartRepo;
+            }
+        }
+
+        public ICustomerRepository CustomerRepo
+        {
+            get
+            {
+                if (_customerRepo == null)
+                    _customerRepo = new CustomerRepository(_context);
+                return _customerRepo;
+            }
+        }
+
+        public IOrderRepository OrderRepo
+        {
+            get
+            {
+                if (_orderRepo == null)
+                    _orderRepo = new OrderRepository(_context);
+                return _orderRepo;
+            }
+        }
+
+        public IRepository<OrderDetail> OrderDetailRepo
+        {
+            get
+            {
+                if (_orderDetailRepo == null)
+                    _orderDetailRepo = new Repository<OrderDetail>(_context);
+                return _orderDetailRepo;
             }
         }
 
