@@ -167,7 +167,6 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
-    <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\MenuController.cs" />

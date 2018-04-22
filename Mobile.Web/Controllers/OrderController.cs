@@ -43,6 +43,7 @@ namespace Mobile.Web.Controllers
             return Json(results, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
         public async Task<ActionResult> AddToCart(int productId)
         {
             string status = Instances.ERROR_STATUS;
@@ -63,6 +64,7 @@ namespace Mobile.Web.Controllers
             return Json(results, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
         public async Task<ActionResult> RemoveFromCart(int productId)
         {
             string status = Instances.ERROR_STATUS;
@@ -83,6 +85,7 @@ namespace Mobile.Web.Controllers
             return Json(results, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
         public async Task<ActionResult> ChangeQuantityFromCart(int productId, int newQuantity)
         {
             string status = Instances.ERROR_STATUS;
@@ -103,6 +106,7 @@ namespace Mobile.Web.Controllers
             return Json(results, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
         public async Task<JsonResult> OrderProcess(string model)
         {
             string status = Instances.ERROR_STATUS;
@@ -124,7 +128,7 @@ namespace Mobile.Web.Controllers
             var results = APIHelper.Instance.GetApiResult(new
             {
                 Result = result
-            }, status, statusMessage);
+            }, status, statusMessage, result.OrderItems.Count());
             return Json(results, JsonRequestBehavior.AllowGet);
         }
     }

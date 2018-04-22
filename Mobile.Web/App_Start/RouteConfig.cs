@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Routing;
 
 namespace Mobile.Web
@@ -12,6 +8,82 @@ namespace Mobile.Web
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+            #region Product Routes
+            routes.MapRoute(
+                name: "All Product",
+                url: "Products",
+                defaults: new { controller = "Product", action = "Index" }
+            );
+
+            routes.MapRoute(
+                name: "Search Product",
+                url: "SearchProducts",
+                defaults: new { controller = "Product", action = "Search" }
+            );
+
+            routes.MapRoute(
+                name: "Best Outstanding",
+                url: "{controller}/BestOutstanding",
+                defaults: new { controller = "Product", action = "GetBestOutstanding" }
+            );
+
+            routes.MapRoute(
+                name: "Best Selling",
+                url: "{controller}/BestSelling",
+                defaults: new { controller = "Product", action = "GetBestSelling" }
+            );
+
+            routes.MapRoute(
+                name: "Product Detail",
+                url: "ProductDetail/{id}",
+                defaults: new { controller = "Product", action = "GetDetail", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "Product Related",
+                url: "{controller}/Related/{id}",
+                defaults: new { controller = "Product", action = "GetRelated", id = UrlParameter.Optional }
+            );
+            #endregion
+
+            #region Order Routes
+            routes.MapRoute(
+                name: "View Order",
+                url: "ViewOrder",
+                defaults: new { controller = "Order", action = "Index" }
+            );
+
+            routes.MapRoute(
+                name: "Add To Cart",
+                url: "AddToCart",
+                defaults: new { controller = "Order", action = "AddToCart" }
+            );
+
+            routes.MapRoute(
+                name: "Remove From Cart",
+                url: "RemoveFromCart",
+                defaults: new { controller = "Order", action = "RemoveFromCart" }
+            );
+
+            routes.MapRoute(
+                name: "Change Quantity From Cart",
+                url: "ChangeQuantityFromCart",
+                defaults: new { controller = "Order", action = "ChangeQuantityFromCart" }
+            );
+
+            routes.MapRoute(
+                name: "Order Processing",
+                url: "OrderProcessing",
+                defaults: new { controller = "Order", action = "OrderProcess" }
+            );
+            #endregion
+
+            routes.MapRoute(
+                name: "Comments For Product",
+                url: "CommentsForProduct",
+                defaults: new { controller = "Comment", action = "GetCommentsForProduct" }
+            );
 
             routes.MapRoute(
                 name: "Default",
