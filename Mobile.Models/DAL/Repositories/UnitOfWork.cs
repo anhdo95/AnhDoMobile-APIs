@@ -64,7 +64,7 @@ namespace Mobile.Models.DAL.Repositories
             get
             {
                 if (_cartRepo == null)
-                    _cartRepo = new CartRepository(_context);
+                    _cartRepo = new CartRepository(_context, this);
                 return _cartRepo;
             }
         }
@@ -72,6 +72,11 @@ namespace Mobile.Models.DAL.Repositories
         public async Task SaveAsync()
         {
             await _context.SaveChangesAsync();
+        }
+
+        public void Save()
+        {
+            _context.SaveChanges();
         }
 
         private bool disposed = false;
