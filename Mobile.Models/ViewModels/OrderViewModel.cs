@@ -11,6 +11,13 @@ namespace Mobile.Models.ViewModels
         public string ShipPhone { get; set; }
         public string ShipAddress { get; set; }
         public decimal OrderTotal { get; set; }
-        public IEnumerable<OrderDetail> OrderItems { get; set; }
+        public IEnumerable<OrderDetailViewModel> OrderItems { get; set; }
+    }
+
+    public class OrderDetailViewModel
+    {
+        public int ProductId { get; set; }
+        public decimal Price { get; set; }
+        public int Quantity { get; set; }
     }
 }
