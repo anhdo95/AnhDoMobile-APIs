@@ -12,6 +12,7 @@ namespace Mobile.Models.DAL.Repositories
         private IRepository<Menu> _menuRepo;
         private IRepository<ProductSpecification> _specificationRepo;
         private ICommentRepository _commentRepo;
+        private ICartRepository _cartRepo;
 
         public UnitOfWork(MobileDbContext context)
         {
@@ -55,6 +56,16 @@ namespace Mobile.Models.DAL.Repositories
                 if (_commentRepo == null)
                     _commentRepo = new CommentRepository(_context);
                 return _commentRepo;
+            }
+        }
+
+        public ICartRepository CartRepo
+        {
+            get
+            {
+                if (_cartRepo == null)
+                    _cartRepo = new CartRepository(_context);
+                return _cartRepo;
             }
         }
 
