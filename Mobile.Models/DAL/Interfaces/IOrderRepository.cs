@@ -7,6 +7,6 @@ namespace Mobile.Models.DAL.Interfaces
     public interface IOrderRepository : IRepository<Order>
     {
         Task<OrderCompleteViewModel> Complete(int id);
-        Task<int> CheckOut(string cartId);
+        Task<int> CheckOut(ICartRepository cart, Customer customer);
     }
 }

@@ -5,6 +5,7 @@ namespace Mobile.Models.DAL.Interfaces
 {
     public interface ICustomerRepository : IRepository<Customer>
     {
-        Task<bool> IsCustomerExist(string fullName, string phoneNumber);
+        /// <returns>Customer's id</returns>
+        Task<int> IsCustomerExist(bool gender, string fullName, string phoneNumber);
     }
 }

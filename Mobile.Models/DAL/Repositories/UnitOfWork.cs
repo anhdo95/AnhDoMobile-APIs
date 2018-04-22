@@ -87,7 +87,7 @@ namespace Mobile.Models.DAL.Repositories
             get
             {
                 if (_orderRepo == null)
-                    _orderRepo = new OrderRepository(_context);
+                    _orderRepo = new OrderRepository(_context, this);
                 return _orderRepo;
             }
         }

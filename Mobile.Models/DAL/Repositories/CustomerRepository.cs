@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Mobile.Models.DAL.Interfaces;
 using Mobile.Models.Entities;
-using System;
+using System.Data.Entity;
 
 namespace Mobile.Models.DAL.Repositories
 {
@@ -11,9 +11,13 @@ namespace Mobile.Models.DAL.Repositories
         {
         }
 
-        public Task<bool> IsCustomerExist(string fullName, string phoneNumber)
+        public async Task<int> IsCustomerExist(bool gender, string fullName, string phoneNumber)
         {
-            throw new NotImplementedException();
+            var customer = await _dbSet.SingleOrDefaultAsync(
+                c => c.Gender == gender && 
+                c.FullName == fullName && 
+                c.PhoneNumber == phoneNumber);
+            return customer == null ? -1 : customer.Id;
         }
     }
 }
