@@ -61,7 +61,7 @@ namespace Mobile.Web.Controllers
             var results = APIHelper.Instance.GetApiResult(new
             {
             }, status, statusMessage);
-            return Json(results, JsonRequestBehavior.AllowGet);
+            return Json(results);
         }
 
         [HttpPost]
@@ -82,7 +82,7 @@ namespace Mobile.Web.Controllers
             var results = APIHelper.Instance.GetApiResult(new
             {
             }, status, statusMessage);
-            return Json(results, JsonRequestBehavior.AllowGet);
+            return Json(results);
         }
 
         [HttpPost]
@@ -103,7 +103,7 @@ namespace Mobile.Web.Controllers
             var results = APIHelper.Instance.GetApiResult(new
             {
             }, status, statusMessage);
-            return Json(results, JsonRequestBehavior.AllowGet);
+            return Json(results);
         }
 
         [HttpPost]
@@ -129,7 +129,7 @@ namespace Mobile.Web.Controllers
             {
                 Result = result
             }, status, statusMessage, result.OrderItems.Count());
-            return Json(results, JsonRequestBehavior.AllowGet);
+            return Json(results);
         }
     }
 }
