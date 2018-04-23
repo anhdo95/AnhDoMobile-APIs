@@ -61,6 +61,12 @@ namespace Mobile.Web
             );
 
             routes.MapRoute(
+                name: "Get CartId",
+                url: "GetCartId",
+                defaults: new { controller = "Order", action = "GetCartId" }
+            );
+
+            routes.MapRoute(
                 name: "Add To Cart",
                 url: "AddToCart",
                 defaults: new { controller = "Order", action = "AddToCart" }

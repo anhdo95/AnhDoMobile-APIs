@@ -20,17 +20,7 @@ namespace Mobile.Models.DAL.Repositories
             _unitOfWork = unitOfWork;
         }
 
-        public string ShoppingCartId { get; private set; }
-        private const string CART_SESSIONKEY = "CartId";
-
-        public CartRepository GetCart(Controller controller)
-        {
-            var cart = new CartRepository(_context, _unitOfWork);
-            cart.ShoppingCartId = cart.GetCartId(controller.HttpContext);
-            return cart;
-        }
-
-        public async Task<IEnumerable<CartItemViewModel>> GetCartItems()
+        public async Task<IEnumerable<CartItemViewModel>> GetCartItems(string cartId)
         {
             return await Select(
                 c => new CartItemViewModel
@@ -43,22 +33,22 @@ namespace Mobile.Models.DAL.Repositories
                     Price = c.Price,
                     Quantity = c.Quantity
                 },
-                filter: c => c.CartId == ShoppingCartId,
+                filter: c => c.CartId == cartId,
                 orderBy: list => list.OrderBy(c => c.CreatedDate));
         }
 
-        public async Task<decimal> GetTotalPrice()
+        public async Task<decimal> GetTotalPrice(string cartId)
         {
             decimal? total = await (from c in _dbSet
-                        where c.CartId == ShoppingCartId
+                        where c.CartId == cartId
                         select (decimal?)c.Price * c.Quantity).SumAsync();
 
             return total ?? 0;
         }
 
-        public async Task AddToCart(int productId)
+        public async Task AddToCart(int productId, string cartId)
         {
-            var cartItem = await _dbSet.SingleOrDefaultAsync(c => c.CartId == ShoppingCartId && c.ProductId == productId);
+            var cartItem = await _dbSet.SingleOrDefaultAsync(c => c.CartId == cartId && c.ProductId == productId);
 
             if (cartItem == null)
             {
@@ -66,7 +56,7 @@ namespace Mobile.Models.DAL.Repositories
                 decimal price = product.PromotionPrice ?? product.Price;
                 Insert(new Cart
                 {
-                    CartId = ShoppingCartId,
+                    CartId = cartId,
                     ProductId = productId,
                     Price = price,
                     Quantity = 1,
@@ -80,9 +70,9 @@ namespace Mobile.Models.DAL.Repositories
             await _unitOfWork.SaveAsync();
         }
 
-        public async Task ChangeQuantityFromCart(int productId, int newQuantity)
+        public async Task ChangeQuantityFromCart(int productId, int newQuantity, string cartId)
         {
-            var cartItem = await _dbSet.SingleAsync(c => c.CartId == ShoppingCartId && c.ProductId == productId);
+            var cartItem = await _dbSet.SingleAsync(c => c.CartId == cartId && c.ProductId == productId);
             if (newQuantity <= 0)
             {
                 await DeleteAsync(cartItem.RecordId);
@@ -94,9 +84,9 @@ namespace Mobile.Models.DAL.Repositories
             await _unitOfWork.SaveAsync();
         }
 
-        public async Task RemoveFromCart(int productId)
+        public async Task RemoveFromCart(int productId, string cartId)
         {
-            var cartItem = await _dbSet.SingleAsync(c => c.CartId == ShoppingCartId && c.ProductId == productId);
+            var cartItem = await _dbSet.SingleAsync(c => c.CartId == cartId && c.ProductId == productId);
             await DeleteAsync(cartItem.RecordId);
             await _unitOfWork.SaveAsync();
         }
@@ -105,9 +95,9 @@ namespace Mobile.Models.DAL.Repositories
         /// This method is only changed entities state to deleted and not calls SaveChanges method.
         /// </summary>
         /// <returns></returns>
-        public async Task EmptyCart()
+        public async Task EmptyCart(string cartId)
         {
-            var cartItems = await GetAsync(filter: c => c.CartId == ShoppingCartId);
+            var cartItems = await GetAsync(filter: c => c.CartId == cartId);
             if (cartItems.Count() > 0)
             {
                 foreach (var cart in cartItems)
@@ -115,19 +105,6 @@ namespace Mobile.Models.DAL.Repositories
                     Delete(cart);
                 }
             }
-        }
-
-        private string GetCartId(HttpContextBase context)
-        {
-            if (!context.Request.Cookies.AllKeys.Contains(CART_SESSIONKEY))
-            {
-                Guid tempCartId = Guid.NewGuid();
-                HttpCookie cookie = new HttpCookie(CART_SESSIONKEY);
-                cookie.Value = tempCartId.ToString();
-                cookie.Expires = DateTime.Now.AddDays(7);
-                context.Response.Cookies.Add(cookie);
-            }
-            return context.Request.Cookies[CART_SESSIONKEY].Value.ToString();
         }
     }
 }

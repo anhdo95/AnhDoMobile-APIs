@@ -18,7 +18,7 @@ namespace Mobile.Models.DAL.Repositories
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<int> CheckOut(ICartRepository cart, Customer customer)
+        public async Task<int> CheckOut(string cartId, Customer customer)
         {
             int customerId = await _unitOfWork.CustomerRepo.IsCustomerExist(customer.Gender, customer.FullName, customer.PhoneNumber);
             if (customerId == -1)
@@ -29,7 +29,7 @@ namespace Mobile.Models.DAL.Repositories
             {
                 customer.Id = customerId;
             }
-            int orderId = await CreateOrderByCustomer(cart, customer);
+            int orderId = await CreateOrderByCustomer(cartId, customer);
             return orderId;
         }
 
@@ -56,7 +56,7 @@ namespace Mobile.Models.DAL.Repositories
             return order;
         }
 
-        private async Task<int> CreateOrderByCustomer(ICartRepository cart, Customer customer)
+        private async Task<int> CreateOrderByCustomer(string cartId, Customer customer)
         {
             var order = new Order
             {
@@ -65,12 +65,12 @@ namespace Mobile.Models.DAL.Repositories
                 ShipMobile = customer.PhoneNumber,
                 ShipAddress = customer.Address,
                 Status = OrderStatus.Pending,
-                Total = await cart.GetTotalPrice(),
+                Total = await _unitOfWork.CartRepo.GetTotalPrice(cartId),
                 CreatedDate = DateTime.Now,
                 CustomerId = customer.Id
             };
             Insert(order);
-            foreach (var item in await cart.GetCartItems())
+            foreach (var item in await _unitOfWork.CartRepo.GetCartItems(cartId))
             {
                 _unitOfWork.OrderDetailRepo.Insert(new OrderDetail
                 {
@@ -80,7 +80,7 @@ namespace Mobile.Models.DAL.Repositories
                     Quantity = item.Quantity
                 });
             }
-            await cart.EmptyCart();
+            await _unitOfWork.CartRepo.EmptyCart(cartId);
             await _unitOfWork.SaveAsync();
             return order.Id;
         }

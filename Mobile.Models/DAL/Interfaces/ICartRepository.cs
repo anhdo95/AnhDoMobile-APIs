@@ -1,20 +1,17 @@
-﻿using Mobile.Models.DAL.Repositories;
-using Mobile.Models.Entities;
+﻿using Mobile.Models.Entities;
 using Mobile.Models.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Web.Mvc;
 
 namespace Mobile.Models.DAL.Interfaces
 {
     public interface ICartRepository : IRepository<Cart>
     {
-        CartRepository GetCart(Controller controller);
-        Task<IEnumerable<CartItemViewModel>> GetCartItems();
-        Task<decimal> GetTotalPrice();
-        Task AddToCart(int productId);
-        Task RemoveFromCart(int productId);
-        Task ChangeQuantityFromCart(int productId, int newQuantity);
-        Task EmptyCart();
+        Task<IEnumerable<CartItemViewModel>> GetCartItems(string cartId);
+        Task<decimal> GetTotalPrice(string cartId);
+        Task AddToCart(int productId, string cartId);
+        Task RemoveFromCart(int productId, string cartId);
+        Task ChangeQuantityFromCart(int productId, int newQuantity, string cartId);
+        Task EmptyCart(string cartId);
     }
 }

@@ -20,16 +20,24 @@ namespace Mobile.Web.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<JsonResult> Index()
+        public JsonResult GetCartId()
+        {
+            return Json(new
+            {
+                CartId = Guid.NewGuid().ToString()
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public async Task<JsonResult> Index(string cartId)
         {
             string status = Instances.ERROR_STATUS;
             string statusMessage = string.Empty;
-            var cart = _unitOfWork.CartRepo.GetCart(this);
             var result = new CartViewModel();
             try
             {
-                result.CartItems = await cart.GetCartItems();
-                result.CartTotalPrice = await cart.GetTotalPrice();
+                result.CartItems = await _unitOfWork.CartRepo.GetCartItems(cartId);
+                result.CartTotalPrice = await _unitOfWork.CartRepo.GetTotalPrice(cartId);
                 status = Instances.SUCCESS_STATUS;
             }
             catch (Exception ex)
@@ -44,14 +52,13 @@ namespace Mobile.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddToCart(int productId)
+        public async Task<ActionResult> AddToCart(int productId, string cartId)
         {
             string status = Instances.ERROR_STATUS;
             string statusMessage = string.Empty;
-            var cart = _unitOfWork.CartRepo.GetCart(this);
             try
             {
-                await cart.AddToCart(productId);
+                await _unitOfWork.CartRepo.AddToCart(productId, cartId);
                 status = Instances.SUCCESS_STATUS;
             }
             catch (Exception ex)
@@ -65,14 +72,13 @@ namespace Mobile.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> RemoveFromCart(int productId)
+        public async Task<ActionResult> RemoveFromCart(int productId, string cartId)
         {
             string status = Instances.ERROR_STATUS;
             string statusMessage = string.Empty;
-            var cart = _unitOfWork.CartRepo.GetCart(this);
             try
             {
-                await cart.RemoveFromCart(productId);
+                await _unitOfWork.CartRepo.RemoveFromCart(productId, cartId);
                 status = Instances.SUCCESS_STATUS;
             }
             catch (Exception ex)
@@ -86,14 +92,13 @@ namespace Mobile.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> ChangeQuantityFromCart(int productId, int newQuantity)
+        public async Task<ActionResult> ChangeQuantityFromCart(int productId, int newQuantity, string cartId)
         {
             string status = Instances.ERROR_STATUS;
             string statusMessage = string.Empty;
-            var cart = _unitOfWork.CartRepo.GetCart(this);
             try
             {
-                await cart.ChangeQuantityFromCart(productId, newQuantity);
+                await _unitOfWork.CartRepo.ChangeQuantityFromCart(productId, newQuantity, cartId);
                 status = Instances.SUCCESS_STATUS;
             }
             catch (Exception ex)
@@ -107,17 +112,16 @@ namespace Mobile.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> OrderProcess(string model)
+        public async Task<JsonResult> OrderProcess(string model, string cartId)
         {
             string status = Instances.ERROR_STATUS;
             string statusMessage = string.Empty;
-            var cart = _unitOfWork.CartRepo.GetCart(this);
             var result = new OrderCompleteViewModel();
             try
             {
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
                 Customer customer = serializer.Deserialize<Customer>(model);
-                int orderId = await _unitOfWork.OrderRepo.CheckOut(cart, customer);
+                int orderId = await _unitOfWork.OrderRepo.CheckOut(cartId, customer);
                 result = await _unitOfWork.OrderRepo.Complete(orderId);
                 status = Instances.SUCCESS_STATUS;
             }
