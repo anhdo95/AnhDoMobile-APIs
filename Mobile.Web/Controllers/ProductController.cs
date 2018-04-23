@@ -19,6 +19,7 @@ namespace Mobile.Web.Controllers
             _unitOfWork = unitOfWork;
         }
 
+        [OutputCache(Duration = 86400, VaryByParam = "None")]
         public async Task<JsonResult> Index()
         {
             string status = Instances.ERROR_STATUS;
@@ -41,6 +42,7 @@ namespace Mobile.Web.Controllers
             return Json(results, JsonRequestBehavior.AllowGet);
         }
 
+        [OutputCache(Duration = 3600, VaryByParam = "keyword")]
         public async Task<JsonResult> Search(string keyword)
         {
             string status = Instances.ERROR_STATUS;
@@ -62,6 +64,7 @@ namespace Mobile.Web.Controllers
             return Json(results, JsonRequestBehavior.AllowGet);
         }
 
+        [OutputCache(Duration = 86400, VaryByParam = "None")]
         public async Task<JsonResult> GetBestOutstanding()
         {
             string status = Instances.ERROR_STATUS;
@@ -84,6 +87,7 @@ namespace Mobile.Web.Controllers
             return Json(results, JsonRequestBehavior.AllowGet);
         }
 
+        [OutputCache(Duration = 86400, VaryByParam = "None")]
         public async Task<JsonResult> GetBestSelling()
         {
             string status = Instances.ERROR_STATUS;
@@ -106,6 +110,7 @@ namespace Mobile.Web.Controllers
             return Json(results, JsonRequestBehavior.AllowGet);
         }
 
+        [OutputCache(Duration = 86400, VaryByParam = "metaTitle")]
         public async Task<JsonResult> GetDetail(string metaTitle)
         {
             string status = Instances.ERROR_STATUS;
@@ -131,6 +136,7 @@ namespace Mobile.Web.Controllers
             return Json(results, JsonRequestBehavior.AllowGet);
         }
 
+        [OutputCache(Duration = 86400, VaryByParam = "id")]
         public async Task<JsonResult> GetRelated(int id)
         {
             string status = Instances.ERROR_STATUS;
@@ -153,6 +159,7 @@ namespace Mobile.Web.Controllers
             return Json(results, JsonRequestBehavior.AllowGet);
         }
 
+        [OutputCache(Duration = 86400, VaryByParam = "None")]
         public async Task<JsonResult> GetCategories()
         {
             string status = Instances.ERROR_STATUS;

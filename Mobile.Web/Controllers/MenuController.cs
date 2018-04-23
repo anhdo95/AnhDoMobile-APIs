@@ -19,6 +19,7 @@ namespace Mobile.Web.Controllers
             _unitOfWork = unitOfWork;
         }
 
+        [OutputCache(Duration = 86400, VaryByParam = "None")]
         public async Task<JsonResult> Index()
         {
             string status = Instances.ERROR_STATUS;
