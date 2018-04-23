@@ -87,9 +87,9 @@ namespace Mobile.Models.DAL.Repositories
                 });
         }
 
-        public async Task<ProductDetailViewModel> GetDetail(int id)
+        public async Task<ProductDetailViewModel> GetDetail(string metaTitle)
         {
-            var product = await GetByIdAsync(id);
+            var product = await _dbSet.SingleOrDefaultAsync(p => p.MetaTitle == metaTitle);
 
             return new ProductDetailViewModel
             {

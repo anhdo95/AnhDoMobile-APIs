@@ -19,7 +19,7 @@ namespace Mobile.Models.DAL.Interfaces
         Task<IEnumerable<ProductViewModel>> GetBestOutstanding(int topNumer);
         // <param name="topNumer">The number of elements to return.</param>
         Task<IEnumerable<ProductViewModel>> GetBestSelling(int topNumer);
-        Task<ProductDetailViewModel> GetDetail(int id);
+        Task<ProductDetailViewModel> GetDetail(string metaTitle);
         /// <summary>
         /// This method will find the products are the best related to this product.
         /// </summary>

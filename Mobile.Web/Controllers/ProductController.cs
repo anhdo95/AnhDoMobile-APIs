@@ -106,7 +106,7 @@ namespace Mobile.Web.Controllers
             return Json(results, JsonRequestBehavior.AllowGet);
         }
 
-        public async Task<JsonResult> GetDetail(int id)
+        public async Task<JsonResult> GetDetail(string metaTitle)
         {
             string status = Instances.ERROR_STATUS;
             string statusMessage = string.Empty;
@@ -114,8 +114,8 @@ namespace Mobile.Web.Controllers
             var specification = new ProductSpecification();
             try
             {
-                product = await _unitOfWork.ProductRepo.GetDetail(id);
-                specification = await _unitOfWork.SpecificationRepo.GetByIdAsync(id);
+                product = await _unitOfWork.ProductRepo.GetDetail(metaTitle);
+                specification = await _unitOfWork.SpecificationRepo.GetByIdAsync(product.Id);
                 specification.Product = null; // Avoid a circular reference to product instance
                 
                 status = Instances.SUCCESS_STATUS;
