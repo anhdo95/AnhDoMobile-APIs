@@ -7,6 +7,7 @@ namespace Mobile.Models.DAL.Interfaces
     public interface IUnitOfWork : IDisposable
     {
         IProductRepository ProductRepo { get; }
+        IRepository<Category> CategoryRepo { get; }
         IRepository<Menu> MenuRepo { get; }
         IRepository<ProductSpecification> SpecificationRepo { get; }
         ICommentRepository CommentRepo { get; }

@@ -27,4 +27,11 @@ namespace Mobile.Models.ViewModels
         public string CameraBefore { get; set; }
         public string PinCapacity { get; set; }
     }
+
+    public class CategoryViewModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string MetaTitle { get; set; }
+    }
 }

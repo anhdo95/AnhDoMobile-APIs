@@ -152,5 +152,33 @@ namespace Mobile.Web.Controllers
             }, status, statusMessage, products.Count());
             return Json(results, JsonRequestBehavior.AllowGet);
         }
+
+        public async Task<JsonResult> GetCategories()
+        {
+            string status = Instances.ERROR_STATUS;
+            string statusMessage = string.Empty;
+            var categories = Enumerable.Empty<CategoryViewModel>();
+            try
+            {
+                categories = await _unitOfWork.CategoryRepo.Select(
+                    c => new CategoryViewModel {
+                        Id = c.Id,
+                        Name = c.Name,
+                        MetaTitle = c.MetaTitle
+                    }, filter: c => c.Status,
+                    orderBy: list => list.OrderBy(c => c.DisplayOrder));
+                status = Instances.SUCCESS_STATUS;
+            }
+            catch (Exception ex)
+            {
+                statusMessage = ex.Message;
+            }
+
+            var results = APIHelper.Instance.GetApiResult(new
+            {
+                Categories = categories
+            }, status, statusMessage, categories.Count());
+            return Json(results, JsonRequestBehavior.AllowGet);
+        }
     }
 }

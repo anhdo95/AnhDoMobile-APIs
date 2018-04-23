@@ -45,6 +45,12 @@ namespace Mobile.Web
                 url: "{controller}/Related/{id}",
                 defaults: new { controller = "Product", action = "GetRelated", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute(
+                name: "Product Categories",
+                url: "Categories",
+                defaults: new { controller = "Product", action = "GetCategories"}
+            );
             #endregion
 
             #region Order Routes

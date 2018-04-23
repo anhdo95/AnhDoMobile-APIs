@@ -9,6 +9,7 @@ namespace Mobile.Models.DAL.Repositories
     {
         protected readonly MobileDbContext _context;
         private IProductRepository _productRepo;
+        private IRepository<Category> _categoryRepo;
         private IRepository<Menu> _menuRepo;
         private IRepository<ProductSpecification> _specificationRepo;
         private ICommentRepository _commentRepo;
@@ -29,6 +30,16 @@ namespace Mobile.Models.DAL.Repositories
                 if (_productRepo == null)
                     _productRepo = new ProductRepository(_context);
                 return _productRepo;
+            }
+        }
+
+        public IRepository<Category> CategoryRepo
+        {
+            get
+            {
+                if (_categoryRepo == null)
+                    _categoryRepo = new Repository<Category>(_context);
+                return _categoryRepo;
             }
         }
 

@@ -5,7 +5,6 @@ using Mobile.Models.Entities;
 using System.Linq;
 using Mobile.Models.ViewModels;
 using System.Xml.Linq;
-using Mobile.Common;
 using System.Data.Entity;
 
 namespace Mobile.Models.DAL.Repositories
