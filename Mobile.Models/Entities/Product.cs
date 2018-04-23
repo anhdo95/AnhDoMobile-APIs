@@ -28,6 +28,9 @@ namespace Mobile.Models.Entities
         [Required, StringLength(250)]
         public string Image { get; set; }
 
+        [StringLength(250)]
+        public string LargeImage { get; set; }
+
         [Column(TypeName = "xml")]
         public string MoreImages { get; set; }
 

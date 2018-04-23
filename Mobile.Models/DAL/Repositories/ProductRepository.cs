@@ -44,7 +44,8 @@ namespace Mobile.Models.DAL.Repositories
                     Image = p.Image,
                     Price = p.Price,
                     PromotionPrice = p.PromotionPrice,
-                    DiscountAccompanying = p.DiscountAccompanying
+                    DiscountAccompanying = p.DiscountAccompanying,
+                    LargeImage = p.LargeImage
                 },
                 filter: p => p.Status,
                 orderBy: list => list.OrderByDescending(p => p.TopHot),
@@ -62,7 +63,8 @@ namespace Mobile.Models.DAL.Repositories
                     Image = p.Image,
                     Price = p.Price,
                     PromotionPrice = p.PromotionPrice,
-                    DiscountAccompanying = p.DiscountAccompanying
+                    DiscountAccompanying = p.DiscountAccompanying,
+                    LargeImage = p.LargeImage
                 },
                 includeProperties: "OrderDetails",
                 filter: p => p.Status,

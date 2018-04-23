@@ -5,6 +5,7 @@ namespace Mobile.Models.ViewModels
     public class ProductViewModel : SearchProductViewModel
     {
         public string DiscountAccompanying { get; set; }
+        public string LargeImage { get; set; }
     }
 
     public class ProductDetailViewModel : SearchProductViewModel
