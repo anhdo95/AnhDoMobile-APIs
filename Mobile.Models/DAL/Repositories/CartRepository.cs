@@ -5,8 +5,6 @@ using Mobile.Models.Entities;
 using System.Linq;
 using Mobile.Models.ViewModels;
 using System;
-using System.Web;
-using System.Web.Mvc;
 using System.Data.Entity;
 
 namespace Mobile.Models.DAL.Repositories

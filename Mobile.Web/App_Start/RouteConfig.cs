@@ -89,6 +89,18 @@ namespace Mobile.Web
                 url: "OrderProcessing",
                 defaults: new { controller = "Order", action = "OrderProcess" }
             );
+
+            routes.MapRoute(
+                name: "Get Provinces",
+                url: "GetProvinces",
+                defaults: new { controller = "Order", action = "GetProvinces" }
+            );
+
+            routes.MapRoute(
+                name: "Get Districts",
+                url: "GetDistricts",
+                defaults: new { controller = "Order", action = "GetDistricts" }
+            );
             #endregion
 
             routes.MapRoute(

@@ -133,5 +133,46 @@ namespace Mobile.Web.Controllers
             }, status, statusMessage, result.OrderItems.Count());
             return Json(results);
         }
+
+        public JsonResult GetProvinces()
+        {
+            string status = Instances.ERROR_STATUS;
+            string statusMessage = string.Empty;
+            var provinces = Enumerable.Empty<ProvinceViewModel>();
+            try
+            {
+                provinces =  _unitOfWork.OrderRepo.GetProvinces();
+                status = Instances.SUCCESS_STATUS;
+            }
+            catch (Exception ex)
+            {
+                statusMessage = ex.Message;
+            }
+            var results = APIHelper.Instance.GetApiResult(new {
+                Provinces = provinces
+            }, status, statusMessage, provinces.Count());
+            return Json(results, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetDistricts(int provinceId)
+        {
+            string status = Instances.ERROR_STATUS;
+            string statusMessage = string.Empty;
+            var districts = Enumerable.Empty<DistrictViewModel>();
+            try
+            {
+                districts = _unitOfWork.OrderRepo.GetDistricts(provinceId);
+                status = Instances.SUCCESS_STATUS;
+            }
+            catch (Exception ex)
+            {
+                statusMessage = ex.Message;
+            }
+            var results = APIHelper.Instance.GetApiResult(new
+            {
+                Districts = districts
+            }, status, statusMessage, districts.Count());
+            return Json(results, JsonRequestBehavior.AllowGet);
+        }
     }
 }

@@ -1,5 +1,4 @@
-﻿using Mobile.Models.Entities;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Mobile.Models.ViewModels
 {
@@ -19,5 +18,16 @@ namespace Mobile.Models.ViewModels
         public int ProductId { get; set; }
         public decimal Price { get; set; }
         public int Quantity { get; set; }
+    }
+
+    public class ProvinceViewModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
+
+    public class DistrictViewModel : ProvinceViewModel
+    {
+        public int ProvinceId { get; set; }
     }
 }

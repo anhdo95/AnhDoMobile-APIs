@@ -6,12 +6,16 @@ using System;
 using Mobile.Common.Enums;
 using System.Data.Entity;
 using System.Linq;
+using System.Collections.Generic;
+using System.Web;
+using System.Xml.Linq;
 
 namespace Mobile.Models.DAL.Repositories
 {
     public class OrderRepository : Repository<Order>, IOrderRepository
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly string xmlPath = HttpContext.Current.Server.MapPath(@"~/App_Data/Provinces_Data.xml");
 
         public OrderRepository(MobileDbContext context, IUnitOfWork unitOfWork) : base(context)
         {
@@ -83,6 +87,35 @@ namespace Mobile.Models.DAL.Repositories
             await _unitOfWork.CartRepo.EmptyCart(cartId);
             await _unitOfWork.SaveAsync();
             return order.Id;
+        }
+
+        public IEnumerable<DistrictViewModel> GetDistricts(int provinceId)
+        {
+            var xmlDoc = XDocument.Load(xmlPath);
+            var xElements = xmlDoc.Element("Root").Elements("Item").Single(x => x.Attribute("id").Value == provinceId.ToString());
+
+            foreach (var item in xElements.Elements("Item").Where(x => x.Attribute("type").Value == "district"))
+            {
+                yield return new DistrictViewModel {
+                    Id = int.Parse(item.Attribute("id").Value),
+                    Name = item.Attribute("value").Value,
+                    ProvinceId = provinceId
+                };
+            }
+        }
+
+        public IEnumerable<ProvinceViewModel> GetProvinces()
+        {
+            var xmlDoc = XDocument.Load(xmlPath);
+            var xElements = xmlDoc.Element("Root").Elements("Item").Where(x => x.Attribute("type").Value == "province");
+
+            foreach (var item in xElements)
+            {
+                yield return new ProvinceViewModel {
+                    Id = int.Parse(item.Attribute("id").Value),
+                    Name = item.Attribute("value").Value
+                };
+            }
         }
     }
 }
