@@ -70,9 +70,9 @@ namespace Mobile.Models.DAL.Repositories
             await _unitOfWork.SaveAsync();
         }
 
-        public async Task ChangeQuantityFromCart(int productId, int newQuantity, string cartId)
+        public async Task ChangeQuantityFromCart(int recordId, int newQuantity)
         {
-            var cartItem = await _dbSet.SingleAsync(c => c.CartId == cartId && c.ProductId == productId);
+            var cartItem = await GetByIdAsync(recordId);
             if (newQuantity <= 0)
             {
                 await DeleteAsync(cartItem.RecordId);
@@ -84,9 +84,9 @@ namespace Mobile.Models.DAL.Repositories
             await _unitOfWork.SaveAsync();
         }
 
-        public async Task RemoveFromCart(int productId, string cartId)
+        public async Task RemoveFromCart(int recordId)
         {
-            var cartItem = await _dbSet.SingleAsync(c => c.CartId == cartId && c.ProductId == productId);
+            var cartItem = await GetByIdAsync(recordId);
             await DeleteAsync(cartItem.RecordId);
             await _unitOfWork.SaveAsync();
         }

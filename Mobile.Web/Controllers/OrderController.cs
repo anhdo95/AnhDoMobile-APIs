@@ -28,7 +28,6 @@ namespace Mobile.Web.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
 
-
         public async Task<JsonResult> Index(string cartId)
         {
             string status = Instances.ERROR_STATUS;
@@ -72,13 +71,13 @@ namespace Mobile.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> RemoveFromCart(int productId, string cartId)
+        public async Task<ActionResult> RemoveFromCart(int recordId)
         {
             string status = Instances.ERROR_STATUS;
             string statusMessage = string.Empty;
             try
             {
-                await _unitOfWork.CartRepo.RemoveFromCart(productId, cartId);
+                await _unitOfWork.CartRepo.RemoveFromCart(recordId);
                 status = Instances.SUCCESS_STATUS;
             }
             catch (Exception ex)
@@ -92,21 +91,20 @@ namespace Mobile.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> ChangeQuantityFromCart(int productId, int newQuantity, string cartId)
+        public async Task<ActionResult> ChangeQuantityFromCart(int recordId, int newQuantity)
         {
             string status = Instances.ERROR_STATUS;
             string statusMessage = string.Empty;
             try
             {
-                await _unitOfWork.CartRepo.ChangeQuantityFromCart(productId, newQuantity, cartId);
+                await _unitOfWork.CartRepo.ChangeQuantityFromCart(recordId, newQuantity);
                 status = Instances.SUCCESS_STATUS;
             }
             catch (Exception ex)
             {
                 statusMessage = ex.Message;
             }
-            var results = APIHelper.Instance.GetApiResult(new
-            {
+            var results = APIHelper.Instance.GetApiResult(new{
             }, status, statusMessage);
             return Json(results);
         }

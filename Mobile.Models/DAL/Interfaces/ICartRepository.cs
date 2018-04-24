@@ -10,8 +10,8 @@ namespace Mobile.Models.DAL.Interfaces
         Task<IEnumerable<CartItemViewModel>> GetCartItems(string cartId);
         Task<decimal> GetTotalPrice(string cartId);
         Task AddToCart(int productId, string cartId);
-        Task RemoveFromCart(int productId, string cartId);
-        Task ChangeQuantityFromCart(int productId, int newQuantity, string cartId);
+        Task RemoveFromCart(int recordId);
+        Task ChangeQuantityFromCart(int recordId, int newQuantity);
         Task EmptyCart(string cartId);
     }
 }
