@@ -51,8 +51,9 @@ namespace Mobile.Models.DAL.Repositories
                                }).SingleOrDefaultAsync();
 
             order.OrderItems = await _unitOfWork.OrderDetailRepo.Select(
-                od => new OrderDetailViewModel {
-                    ProductId = od.ProductId,
+                od => new CompleteProductViewModel {
+                    Name = od.Product.Name,
+                    Image = od.Product.Image,
                     Price = od.Price,
                     Quantity = od.Quantity
                 }, filter: od => od.OrderId == id);
