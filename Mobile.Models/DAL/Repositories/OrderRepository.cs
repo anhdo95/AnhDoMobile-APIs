@@ -4,7 +4,6 @@ using Mobile.Models.Entities;
 using Mobile.Models.ViewModels;
 using System;
 using Mobile.Common.Enums;
-using System.Data.Entity;
 using System.Linq;
 using System.Collections.Generic;
 using System.Web;
@@ -39,24 +38,10 @@ namespace Mobile.Models.DAL.Repositories
 
         public async Task<OrderCompleteViewModel> Complete(int id)
         {
-            var order = await (from o in _dbSet
-                               where o.Id == id
-                               select new OrderCompleteViewModel {
-                                   OrderId = o.Id,
-                                   ShipName = o.ShipName,
-                                   ShipGender = o.ShipGender,
-                                   ShipAddress = o.ShipAddress,
-                                   ShipPhone = o.ShipMobile,
-                                   OrderTotal = o.Total
-                               }).SingleOrDefaultAsync();
+            var order = await SelectByIdAsync<OrderCompleteViewModel>(id);
 
-            order.OrderItems = await _unitOfWork.OrderDetailRepo.Select(
-                od => new CompleteProductViewModel {
-                    Name = od.Product.Name,
-                    Image = od.Product.Image,
-                    Price = od.Price,
-                    Quantity = od.Quantity
-                }, filter: od => od.OrderId == id);
+            order.OrderItems = await _unitOfWork.OrderDetailRepo
+                .Select<CompleteProductViewModel>(filter: od => od.OrderId == id);
 
             return order;
         }

@@ -1,11 +1,12 @@
-﻿using AutoMapper.QueryableExtensions;
-using Mobile.Models.DAL.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Mobile.Models.DAL.Interfaces;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 
 namespace Mobile.Models.DAL.Repositories
 {
@@ -98,6 +99,12 @@ namespace Mobile.Models.DAL.Repositories
             return await _dbSet.FindAsync(id);
         }
 
+        public async Task<TResult> SelectByIdAsync<TResult>(object id)
+        {
+            var entity = await GetByIdAsync(id);
+            return Mapper.Map<TResult>(entity);
+        }
+
         public void Insert(TEntity entity)
         {
             _dbSet.Add(entity);
@@ -123,5 +130,7 @@ namespace Mobile.Models.DAL.Repositories
             _dbSet.Attach(entityToUpdate);
             _context.Entry(entityToUpdate).State = EntityState.Modified;
         }
+
+        
     }
 }

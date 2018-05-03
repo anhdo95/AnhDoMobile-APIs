@@ -25,6 +25,7 @@ namespace Mobile.Models.DAL.Interfaces
             string includeProperties = "", int? topNumber = null);
 
         Task<TEntity> GetByIdAsync(object id);
+        Task<TResult> SelectByIdAsync<TResult>(object id);
         void Insert(TEntity entity);
         Task DeleteAsync(object id);
         void Delete(TEntity entityToDelete);
