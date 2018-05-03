@@ -14,6 +14,11 @@ namespace Mobile.Models.DAL.Interfaces
             string includeProperties = "", int? topNumber = null);
 
         Task<IEnumerable<TResult>> Select<TResult>(
+            Expression<Func<TEntity, bool>> filter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            string includeProperties = "", int? topNumber = null);
+
+        Task<IEnumerable<TResult>> Select<TResult>(
             Expression<Func<TEntity, TResult>> selectQuery,
             Expression<Func<TEntity, bool>> filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,

@@ -1,4 +1,5 @@
-﻿using Mobile.Models.DAL.Interfaces;
+﻿using AutoMapper.QueryableExtensions;
+using Mobile.Models.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -66,6 +67,30 @@ namespace Mobile.Models.DAL.Repositories
                 query = query.Take(topNumber.Value);
 
             return await query.Select(selectQuery).ToListAsync();
+        }
+
+        public async Task<IEnumerable<TResult>> Select<TResult>(
+            Expression<Func<TEntity, bool>> filter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            string includeProperties = "", int? topNumber = null)
+        {
+            IQueryable<TEntity> query = _dbSet;
+
+            foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                query = query.Include(includeProperty);
+            }
+
+            if (filter != null)
+                query = query.Where(filter);
+
+            if (orderBy != null)
+                query = orderBy(query);
+
+            if (topNumber != null)
+                query = query.Take(topNumber.Value);
+
+            return await query.ProjectTo<TResult>().ToListAsync();
         }
 
         public async Task<TEntity> GetByIdAsync(object id)
