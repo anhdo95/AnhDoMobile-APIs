@@ -8,6 +8,7 @@ namespace Mobile.Web
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
+            AutoMapper.Mapper.Initialize(cfg => cfg.AddProfile<Models.Mapping.MappingProfile>());
             UnityConfig.RegisterComponents();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
         }
