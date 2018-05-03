@@ -20,17 +20,7 @@ namespace Mobile.Models.DAL.Repositories
 
         public async Task<IEnumerable<CartItemViewModel>> GetCartItems(string cartId)
         {
-            return await Select(
-                c => new CartItemViewModel
-                {
-                    RecordId = c.RecordId,
-                    ProductId = c.ProductId,
-                    ProductName = c.Product.Name,
-                    ProductMetaTitle = c.Product.MetaTitle,
-                    ProductImage = c.Product.Image,
-                    Price = c.Price,
-                    Quantity = c.Quantity
-                },
+            return await Select<CartItemViewModel>(
                 filter: c => c.CartId == cartId,
                 orderBy: list => list.OrderBy(c => c.CreatedDate));
         }
@@ -38,8 +28,8 @@ namespace Mobile.Models.DAL.Repositories
         public async Task<decimal> GetTotalPrice(string cartId)
         {
             decimal? total = await (from c in _dbSet
-                        where c.CartId == cartId
-                        select (decimal?)c.Price * c.Quantity).SumAsync();
+                                    where c.CartId == cartId
+                                    select (decimal?)c.Price * c.Quantity).SumAsync();
 
             return total ?? 0;
         }
