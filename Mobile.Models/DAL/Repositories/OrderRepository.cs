@@ -38,7 +38,7 @@ namespace Mobile.Models.DAL.Repositories
 
         public async Task<OrderCompleteViewModel> Complete(int id)
         {
-            var order = await SelectByIdAsync<OrderCompleteViewModel>(id);
+            var order = await SelectByIdAsync<OrderCompleteViewModel>(filter: o => o.Id == id);
 
             order.OrderItems = await _unitOfWork.OrderDetailRepo
                 .Select<CompleteProductViewModel>(filter: od => od.OrderId == id);
@@ -82,7 +82,8 @@ namespace Mobile.Models.DAL.Repositories
 
             foreach (var item in xElements.Elements("Item").Where(x => x.Attribute("type").Value == "district"))
             {
-                yield return new DistrictViewModel {
+                yield return new DistrictViewModel
+                {
                     Id = int.Parse(item.Attribute("id").Value),
                     Name = item.Attribute("value").Value,
                     ProvinceId = provinceId
@@ -97,7 +98,8 @@ namespace Mobile.Models.DAL.Repositories
 
             foreach (var item in xElements)
             {
-                yield return new ProvinceViewModel {
+                yield return new ProvinceViewModel
+                {
                     Id = int.Parse(item.Attribute("id").Value),
                     Name = item.Attribute("value").Value
                 };
