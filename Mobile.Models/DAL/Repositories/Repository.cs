@@ -99,10 +99,25 @@ namespace Mobile.Models.DAL.Repositories
             return await _dbSet.FindAsync(id);
         }
 
-        public async Task<TResult> SelectByIdAsync<TResult>(object id)
+        public async Task<TResult> SelectByIdAsync<TResult>(
+            Expression<Func<TEntity, bool>> filter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            string includeProperties = "")
         {
-            var entity = await GetByIdAsync(id);
-            return Mapper.Map<TResult>(entity);
+            IQueryable<TEntity> query = _dbSet;
+
+            foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                query = query.Include(includeProperty);
+            }
+
+            if (filter != null)
+                query = query.Where(filter);
+
+            if (orderBy != null)
+                query = orderBy(query);
+
+            return Mapper.Map<TResult>(await query.SingleOrDefaultAsync());
         }
 
         public void Insert(TEntity entity)

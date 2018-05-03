@@ -25,7 +25,10 @@ namespace Mobile.Models.DAL.Interfaces
             string includeProperties = "", int? topNumber = null);
 
         Task<TEntity> GetByIdAsync(object id);
-        Task<TResult> SelectByIdAsync<TResult>(object id);
+        Task<TResult> SelectByIdAsync<TResult>(
+            Expression<Func<TEntity, bool>> filter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            string includeProperties = "");
         void Insert(TEntity entity);
         Task DeleteAsync(object id);
         void Delete(TEntity entityToDelete);
